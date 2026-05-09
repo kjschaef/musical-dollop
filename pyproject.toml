@@ -1,0 +1,15 @@
+[tool.poetry]
+package-mode = false
+name = "musical-dollop"
+version = "0.1.0"
+description = "A 2D platformer side-scroller game built with Pygame."
+authors = ["User <user@example.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pygame = "^2.6.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

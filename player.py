@@ -37,6 +37,11 @@ class Player(pygame.sprite.Sprite):
         self.shoot_cooldown = 0
         self.facing_direction = 1 # 1 for right, -1 for left
         
+        self.scale_x = 1.0
+        self.scale_y = 1.0
+        self.bob_y = 0
+        self.tilt_angle = 0
+        
         # Physics
         self.velocity_x = 0
         self.velocity_y = 0
@@ -70,9 +75,8 @@ class Player(pygame.sprite.Sprite):
         # Place player precisely in the starting tile
         self.rect.midbottom = (self.start_x + 20, self.start_y + 40)
 
-    def _animate(self, dt):
+    def _animate_physics(self, dt):
         # Advanced Programmatic Animation State Machine
-        self.animation_timer += dt
         
         # Base effects
         self.bob_y = 0
@@ -142,9 +146,11 @@ class Player(pygame.sprite.Sprite):
         if self.rect.left < 0: self.rect.left = 0
         if self.rect.right > level_width: self.rect.right = level_width
         
-        self._animate(dt)
+        self.animation_timer += dt
+        self._animate_physics(dt)
+        self._animate_sprites(dt)
 
-    def _animate(self, dt):
+    def _animate_sprites(self, dt):
         # State machine for animation
         if self.shoot_cooldown > 0.3: # Attacking
             self.state = "attack"
@@ -157,7 +163,6 @@ class Player(pygame.sprite.Sprite):
             
         frames = self.animation_frames.get(self.state, self.animation_frames["idle"])
         if frames:
-            self.animation_timer += dt
             speed = 0.1 # seconds per frame
             self.current_frame = int(self.animation_timer / speed) % len(frames)
             self.image = frames[self.current_frame]
@@ -270,6 +275,9 @@ class Player(pygame.sprite.Sprite):
         for item in hit_list:
             if item.item_type == "health":
                 self.health = min(100, self.health + 50)
+            elif item.item_type == "jump":
+                self.jump_power = -900 # Super jump
+                self.score += 500
             else:
                 self.inventory.append(item.item_type)
                 self.score += 200

@@ -412,7 +412,8 @@ class LevelEditor(State):
             pygame.K_7: ('W', "Weapon", (0, 255, 255)),
             pygame.K_8: ('T', "Troll", (0, 100, 0)),
             pygame.K_9: ('N', "Snake", (173, 255, 47)),
-            pygame.K_0: ('D', "Dragon", (128, 0, 128))
+            pygame.K_0: ('D', "Dragon", (128, 0, 128)),
+            pygame.K_j: ('J', "Jump", (255, 0, 255))
         }
         self.current_tile = 'P'
         self.save_timer = 0

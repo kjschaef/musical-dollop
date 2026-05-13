@@ -31,6 +31,8 @@ class Item(pygame.sprite.Sprite):
             self.image.fill((0, 255, 0))
         elif item_type == "weapon":
             self.image.fill((0, 255, 255))
+        elif item_type == "jump":
+            self.image.fill((255, 0, 255)) # Magenta
         self.rect = self.image.get_rect()
         self.rect.x = x + 10
         self.rect.y = y + 20
@@ -81,6 +83,7 @@ class Level:
         self.start_y = -1
         self.tile_size = 40
         self.width = 0
+        self.height = 0
         self.load_level(filepath, level_num)
         
     def load_level(self, filepath, level_num):
@@ -89,6 +92,7 @@ class Level:
                 layout = f.readlines()
                 
             self.width = max(len(row.rstrip('\n')) for row in layout) * self.tile_size
+            self.height = len(layout) * self.tile_size
             for row_idx, row in enumerate(layout):
                 for col_idx, col in enumerate(row.rstrip('\n')):
                     x = col_idx * self.tile_size
@@ -97,6 +101,9 @@ class Level:
                     if col == 'P':
                         platform = Platform(x, y, self.tile_size, self.tile_size)
                         self.platforms.add(platform)
+                        # 2% chance to spawn a jump power-up on top of a platform
+                        if random.random() < 0.02:
+                            self.items.add(Item(x, y - self.tile_size, "jump"))
                     elif col == 'E':
                         # Dynamic difficulty scaling
                         if level_num >= 4:
@@ -133,6 +140,8 @@ class Level:
                         self.items.add(Item(x, y, "health"))
                     elif col == 'W':
                         self.items.add(Item(x, y, "weapon"))
+                    elif col == 'J':
+                        self.items.add(Item(x, y, "jump"))
                     elif col == 'B':
                         self.enemies.add(Boss(x, y))
                         
@@ -140,6 +149,7 @@ class Level:
             print(f"Error loading level {filepath}. Using fallback layout.")
             # Fallback level
             self.width = SCREEN_WIDTH * 2
+            self.height = SCREEN_HEIGHT
         if self.start_x == -1:
             self.start_x = 50
             self.start_y = SCREEN_HEIGHT - 100

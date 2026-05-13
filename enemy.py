@@ -8,7 +8,7 @@ class Enemy(pygame.sprite.Sprite):
         try:
             self.base_image = pygame.image.load("assets/characters/enemy.png").convert_alpha()
             self.base_image = pygame.transform.scale(self.base_image, (32, 32))
-            self.base_image.set_colorkey((255, 255, 255))
+
         except FileNotFoundError:
             self.base_image = pygame.Surface((32, 32))
             self.base_image.fill(RED)
@@ -49,7 +49,7 @@ class Troll(Enemy):
         try:
             self.base_image = pygame.image.load("assets/characters/troll.png").convert_alpha()
             self.base_image = pygame.transform.scale(self.base_image, (48, 48))
-            self.base_image.set_colorkey((255, 255, 255))
+
         except FileNotFoundError:
             self.base_image = pygame.Surface((48, 48))
             self.base_image.fill((0, 100, 0)) # Dark green
@@ -71,7 +71,7 @@ class GiantSnake(Enemy):
         try:
             self.base_image = pygame.image.load("assets/characters/snake.png").convert_alpha()
             self.base_image = pygame.transform.scale(self.base_image, (32, 16))
-            self.base_image.set_colorkey((255, 255, 255))
+
         except FileNotFoundError:
             self.base_image = pygame.Surface((32, 16))
             self.base_image.fill((173, 255, 47)) # Yellow green
@@ -93,7 +93,7 @@ class Dragon(Enemy):
         try:
             self.base_image = pygame.image.load("assets/characters/dragon.png").convert_alpha()
             self.base_image = pygame.transform.scale(self.base_image, (56, 56))
-            self.base_image.set_colorkey((255, 255, 255))
+
         except FileNotFoundError:
             self.base_image = pygame.Surface((56, 56))
             self.base_image.fill((128, 0, 128)) # Purple

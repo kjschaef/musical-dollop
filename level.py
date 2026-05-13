@@ -43,7 +43,7 @@ class Boss(Enemy):
         try:
             self.base_image = pygame.image.load("assets/characters/boss.png").convert_alpha()
             self.base_image = pygame.transform.scale(self.base_image, (64, 64))
-            self.base_image.set_colorkey((255, 255, 255))
+
         except FileNotFoundError:
             self.base_image = pygame.Surface((64, 64))
             self.base_image.fill((139, 0, 0)) # Dark red
